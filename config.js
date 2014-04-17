@@ -1,11 +1,10 @@
 module.exports = {
-  port : 8090,
-  title : 'Lou.lt',
+  port : 8099,
+  title : 'OPSIE',
   devel : true,
   logfile : 'logs/access.log',
   ip: '0.0.0.0',
   secret: 't32ç!567pyqs65dlkSDFfjbh',
-  host: '.lou.localhost',
   sessIdName : 'sessID',
   db : {
     host : "storage.melinon.com",

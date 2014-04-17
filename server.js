@@ -8,10 +8,9 @@ var cookie   = require("cookie");
 var connect  = require("connect");
 var session  = require('express-session');
 var MemoryStore = express.session.MemoryStore;
+var sessionStore = new MemoryStore();																					 //Tout ce qu'il faut pour la gestion de la session
 
 // configuration ===============================================================
-
-var sessionStore = new MemoryStore();
 
 app.configure(function() {
 	app.use(express.favicon(__dirname + '/static/favicon.png'));
@@ -24,10 +23,15 @@ app.configure(function() {
 		store: sessionStore,
 		key: config.sessIdName,
 		secret: config.secret,
-		cookie: { httpOnly: false, maxAge: 30*24*60*60*1000, domain: config.host }}
+		cookie: { httpOnly: false, maxAge: 60*60*1000 }}
 	));
 
 });
+
+// Ce bloc permet de gérer l'authentification préalable à l'établissement d'une connexion
+// Socket.io. Ici on s'assure juste qu'une session créée par express existe et on
+// Ajoute cette session à l'objet handshake pour la rendre accessible dans les routes
+// de socket.io
 
 io.set('authorization', function (handshakeData, accept) {
 	if (handshakeData.headers.cookie) {
