@@ -1,0 +1,21 @@
+{
+  "name": "OPSIE",
+  "version": "0.0.1",
+  "homepage": "https://github.com/dremixam/OPSIE",
+  "authors": [
+    "Maxime Mélinon <maxime@melinon.fr>",
+    "Soufiyan Yacoubi <soufiyan.yacoubi@gmail.com>"
+  ],
+  "license": "GNU GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.16"
+  }
+}

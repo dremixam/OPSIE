@@ -1,0 +1,14 @@
+{
+  "name"         : "OPSIE",
+  "version"      : "0.0.1",
+  "description"  : "Project.",
+  "main"         : "server.js",
+  "author"       : "Dr Emixam",
+  "dependencies" : {
+    "express"    : "~3.4.4",
+    "socket.io"  : "~0.9.16",
+    "cookie"     : "~0.1.1",
+    "express-session" : "~1.0.2",
+    "connect"    : "~2.14.3"
+  }
+}
