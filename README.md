@@ -21,6 +21,7 @@ Déploiement :
     bower install
 
 lancement :
+
     node server.js
 
 lancement en tâche de fond :
