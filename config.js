@@ -7,8 +7,10 @@ module.exports = {
   secret: 't32ç!567pyqs65dlkSDFfjbh',
   sessIdName : 'sessID',
   db : {
-    host : "storage.melinon.com",
-    name : "lou_lt_test",
-    sessionColl : "session"
+    hostname: 'disora.univ-lyon2.fr',
+    port: 1521,
+    user: 'fc28',
+    password: 'k9vcfw14',
+    database: 'bdetu'
   }
 }
