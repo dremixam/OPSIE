@@ -19,8 +19,8 @@ Déploiement :
 
 On récupère le code source
 
-    git clone git@github.com:dremixam/lou.lt.git
-    cd lou.lt
+    git clone git@github.com:dremixam/OPSIE.git
+    cd OPSIE
 
 npm va devoir compiler le driver oracle, il est nécéssaire pour cela de regler quelques variables d'environnement pour définir l'endroit où se trouve Oracle Instant Client.
 
@@ -72,7 +72,4 @@ lancement en tâche de fond :
 
     forever start server.js
 
-
 L'application est ensuite accessible à l'adresse [http://localhost:8099/] (avec la configuration par défaut).
-
-La configuration se trouve dans config.js (ip/port d'écoute, infos database etc)
