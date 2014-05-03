@@ -24,12 +24,15 @@ On récupère le code source
 
 npm va devoir compiler le driver oracle, il est nécéssaire pour cela de regler quelques variables d'environnement pour définir l'endroit où se trouve Oracle Instant Client.
 
+    export OCI_LIB_DIR=/opt/instantclient
     export OCI_INCLUDE_DIR=/opt/instantclient/sdk/include/
     export LD_LIBRARY_PATH=/opt/instantclient
 
 Si vous êtes sous OSX, il est nécéssaire de définir le répertoire des librairies dynamiques.
 
     export DYLD_LIBRARY_PATH=/opt/instantclient
+
+Pour plus d'infos sur la connectivité Oracle avec node.js, voir [documentation du module "oracle"](https://www.npmjs.org/package/oracle)
 
 Tout devrait être bon, on installe les dépendances.
 
