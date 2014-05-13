@@ -1,0 +1,30 @@
+<h2>Liste des agences</h2>
+
+{{ message }}
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Nom de l'agence</th>
+      <th>Adresse</th>
+      <th>Code Postal</th>
+      <th>Ville</th>
+      <th>Téléphone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in listeAgences | orderBy:sortingOrder:reverse">
+      <td>{{item.id}}</td>
+      <td>{{item.nom}}</td>
+      <td>{{item.adresse}}</td>
+      <td>{{item.cp}}</td>
+      <td>{{item.ville}}</td>
+      <td>{{item.tel}}</td>
+      <td><a href="#EditerAgence/{{item.id}}">Éditer</a></td>
+      <td><a href="#SupprimerAgence/{{item.id}}">Supprimer</a></td>
+    </tr>
+  </tbody>
+</table>
+<a href="#AjouterAgence" class="btn btn-primary btn-lg">Nouvelle agence</a>
