@@ -71,8 +71,16 @@ lancement :
 
     node server.js
 
+Sous OSX il est nécéssaire d'ajouter le répertoire `instantclient` au PATH les librairies dynamiques
+
+    DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:/opt/instantclient/" node server.js
+
 lancement en tâche de fond :
 
     forever start server.js
+
+Même chose pour OSX
+
+    DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:/opt/instantclient/" forever start server.js
 
 L'application est ensuite accessible à l'adresse [http://localhost:8099/] (avec la configuration par défaut).

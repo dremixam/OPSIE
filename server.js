@@ -7,7 +7,7 @@ var io			 = require('socket.io').listen(server);														 // create socket.
 var cookie   = require("cookie");
 var connect  = require("connect");
 var session  = require('express-session');
-var MemoryStore = express.session.MemoryStore;
+var MemoryStore = express.session.MemoryStore;																	//Les données de sessions seront stockées en mémoire (attention, si elles deviennent volumineuses il faudrait penser à changer celà pour un stockage en base de données)
 var sessionStore = new MemoryStore();																					 //Tout ce qu'il faut pour la gestion de la session
 
 // configuration ===============================================================

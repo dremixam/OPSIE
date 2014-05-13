@@ -1,14 +1,11 @@
-/*
-var clientList = require('./models/user');
-var messagesRoute = require("./routes/messages");
-var messagesModel = require('./models/messages');
-var fs = require('fs');
-*/
+agenceModel = require("./routes/agence");
+coproprieteModel = require("./routes/copropriete");
+
 
 module.exports = function(io) {
-
+	console.log("Chargement des routes");
 	io.sockets.on('connection', function (socket, pseudo) {
-
+		console.log("Connexion en cours, activation de la session et chargement des routes");
 		// Gestion de la session
 		var hs = socket.handshake;
 
@@ -20,14 +17,12 @@ module.exports = function(io) {
 		}, 60 * 1000);
 
 
-		//messagesRoute(socket);
-
-
-
-
+		console.log("route agence");
+		agenceModel(socket);
+				console.log("route copropriete");
+		coproprieteModel(socket);
 
 		socket.on('disconnect', function() {
-
 			clearInterval(intervalID);
 		});
 
