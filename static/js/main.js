@@ -47,7 +47,7 @@ function($routeProvider) {
   when('/AjouterAgence', {
     templateUrl: 'views/ajouterAgence.html',
     controller: 'AjouterAgenceController'
-  });
+  })
 }]);
 
 immoApp.controller("EditFormAgenceController", function($scope, socket, $location, $routeParams) {
@@ -63,22 +63,40 @@ immoApp.controller("EditFormAgenceController", function($scope, socket, $locatio
     }
   });
   socket.on('get-agence', function (data) {
-    $scope.agenceNom = data.nom;
-    $scope.agenceAdresse = data.adresse;
-    $scope.agenceCP = data.cp;
-    $scope.agenceVille = data.ville;
-    $scope.agenceTel = data.tel;
+    console.log(data);
+    $scope.agenceNom = data.NOM_AGENCE;
+    $scope.agenceAdresse = data.ADRESSE_AGENCE;
+    $scope.agenceCP = data.CP_AGENCE;
+    $scope.agenceVille = data.VILLE_AGENCE;
+    $scope.agenceTel = data.TEL_AGENCE;
     $( "#loading-overlay" ).fadeOut(200);
   });
 
 
-})
+
+  $scope.submit = function() {
+    if ($scope.agenceNom && $scope.agenceAdresse && $scope.agenceCP && $scope.agenceVille && $scope.agenceTel) {
+      $( "#loading-overlay" ).fadeIn(200);
+      socket.emit('update-agence', {
+        id: $scope.id,
+        nom: $scope.agenceNom,
+        adresse: $scope.agenceAdresse,
+        cp: $scope.agenceCP,
+        ville: $scope.agenceVille,
+        tel: $scope.agenceTel
+      });
+    }
+
+  };
+  socket.on('updated-agence', function (data) {
+    $location.path( "/ListAgences" );
+  });
+});
 
 immoApp.controller("AjouterAgenceController", function($scope, socket, $location){
   $scope.submit = function() {
     if ($scope.agenceNom && $scope.agenceAdresse && $scope.agenceCP && $scope.agenceVille && $scope.agenceTel) {
       $( "#loading-overlay" ).fadeIn(200);
-
       socket.emit('add-agence', {
         nom: $scope.agenceNom,
         adresse: $scope.agenceAdresse,
@@ -91,14 +109,22 @@ immoApp.controller("AjouterAgenceController", function($scope, socket, $location
   };
   socket.on('inserted-agence', function (data) {
     $location.path( "/ListAgences" );
-    $( "#loading-overlay" ).fadeOut(200);
+
   });
 });
 
 immoApp.controller('ListAgenceController', function($scope, socket) {
   socket.on('list-agence', function (data) {
+    console.log(data);
     $scope.listeAgences = data;
     $( "#loading-overlay" ).fadeOut(200);
+  });
+  $scope.supprimerAgence=function(id){
+    $( "#loading-overlay" ).fadeIn(200);
+    socket.emit('del-agence', id);
+  }
+  socket.on('deleted-agence', function (data) {
+    socket.emit('list-agence');
   });
 });
 
@@ -113,7 +139,6 @@ immoApp.controller("AppCtrl", function ($rootScope, socket) {
     if (current.$$route != null ) {
       if (current.$$route.controller == "ListAgenceController") {
         $( "#loading-overlay" ).fadeIn(200);
-        //document.getElementById("loading-overlay").style.display="block";
         socket.emit('list-agence');
       }
     }

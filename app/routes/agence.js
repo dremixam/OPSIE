@@ -22,4 +22,25 @@ module.exports = function(socket) {
       socket.emit("inserted-agence", id);
     });
   });
+  socket.on('del-agence', function (message) {
+    console.log("suppression de l'agence numéro "+message);
+    Agence.deleteId(message, function(agence) {
+      socket.emit('deleted-agence',message);
+    });
+  });
+  socket.on('update-agence', function(newValues){
+    Agence.loadObjectFromId(newValues.id, function(objectAgence){
+      console.log("Objet chargé : "+objectAgence);
+      console.log("Objet a sauvegarder : "+newValues);
+      objectAgence.nom = newValues.nom;
+      objectAgence.adresse = newValues.adresse;
+      objectAgence.cp = newValues.cp;
+      objectAgence.ville = newValues.ville;
+      objectAgence.tel = newValues.tel;
+      objectAgence.save(function() {
+        console.log("sauvegarde");
+        socket.emit('updated-agence');
+      });
+    });
+  })
 };

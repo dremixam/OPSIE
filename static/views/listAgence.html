@@ -23,7 +23,7 @@
       <td>{{item.ville}}</td>
       <td>{{item.tel}}</td>
       <td><a href="#EditerAgence/{{item.id}}">Éditer</a></td>
-      <td><a href="#SupprimerAgence/{{item.id}}">Supprimer</a></td>
+      <td><a ng-click="supprimerAgence(item.id)">Supprimer</a></td>
     </tr>
   </tbody>
 </table>

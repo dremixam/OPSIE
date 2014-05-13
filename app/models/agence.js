@@ -25,25 +25,65 @@ Agence.prototype.save = function(callbackSaved) {
   theAgence = this;
   oracle.connect(config.db, function(err, connection) {
     if (err) { console.log("Error connecting to db:", err); return; }
+    if ( theAgence.id == null ) {
+      connection.execute(
+        "INSERT INTO agence (NOM_AGENCE, ADRESSE_AGENCE, CP_AGENCE, VILLE_AGENCE, TEL_AGENCE) VALUES (:1, :2, :3, :4, :5) RETURNING id_agence INTO :6",
+        [theAgence.nom, theAgence.adresse, theAgence.cp, theAgence.ville, theAgence.tel, new oracle.OutParam()],
+        function(err, results) {
+          if ( err ) { console.log(err); return; }
+          // results.updateCount = 1
+          // results.returnParam = the id of the person just inserted
+          connection.close();
+          callbackSaved(results.returnParam);
+        }
+      );
+    } else {
+      connection.execute(
+        "UPDATE agence SET NOM_AGENCE=:1, ADRESSE_AGENCE=:2, CP_AGENCE=:3, VILLE_AGENCE=:4, TEL_AGENCE=:5 WHERE id_agence=:6",
+        [theAgence.nom, theAgence.adresse, theAgence.cp, theAgence.ville, theAgence.tel, theAgence.id],
+        function(err, results) {
+          if ( err ) { console.log(err); return; }
+          // results.updateCount = 1
+          // results.returnParam = the id of the person just inserted
+          connection.close();
+          callbackSaved(results.returnParam);
+        }
+      );
+    }
 
-    console.log(this.nom);
-        console.log(this.adresse);
-            console.log(this.cp);
-                console.log(this.ville);
-                    console.log(this.tel);
+  });
+}
+
+Agence.loadObjectFromId = function(id, callback) {
+  oracle.connect(config.db, function(err, connection) {
+    if (err) { console.log("Error connecting to db:", err); return; }
+
+    connection.execute("SELECT * FROM Agence WHERE id_agence=:1", [id], function(err, results) {
+      if (err) { console.log("Error executing query:", err); return; }
+
+      console.log(results[0]);
+
+      elt = results[0];
+
+      connection.close(); // call only when query is finished executing
+      callback(new Agence(elt.ID_AGENCE, elt.NOM_AGENCE, elt.ADRESSE_AGENCE, elt.CP_AGENCE, elt.VILLE_AGENCE, elt.TEL_AGENCE));
+    });
+  });
+}
+
+Agence.deleteId = function(idAgence, callback) {
+  oracle.connect(config.db, function(err, connection) {
+    if (err) { console.log("Error connecting to db:", err); return; }
+
+    connection.execute("DELETE FROM Agence WHERE id_agence=:1", [idAgence], function(err, results) {
+      if (err) { console.log("Error executing query:", err); return; }
+
+      console.log(results[0]);
 
 
-    connection.execute(
-      "INSERT INTO agence (NOM_AGENCE, ADRESSE_AGENCE, CP_AGENCE, VILLE_AGENCE, TEL_AGENCE) VALUES (:1, :2, :3, :4, :5) RETURNING id_agence INTO :6",
-      [theAgence.nom, theAgence.adresse, theAgence.cp, theAgence.ville, theAgence.tel, new oracle.OutParam()],
-      function(err, results) {
-        if ( err ) { console.log(err); return; }
-        // results.updateCount = 1
-        // results.returnParam = the id of the person just inserted
-        connection.close();
-        callbackSaved(results.returnParam);
-      }
-    );
+      connection.close(); // call only when query is finished executing
+      callback(results[0]);
+    });
   });
 }
 
@@ -51,7 +91,7 @@ Agence.loadFromId = function(idAgence, callback) {
   oracle.connect(config.db, function(err, connection) {
     if (err) { console.log("Error connecting to db:", err); return; }
 
-    connection.execute("SELECT * FROM Agence WHERE id_agence=':1'", [idAgence], function(err, results) {
+    connection.execute("SELECT * FROM Agence WHERE id_agence=:1", [idAgence], function(err, results) {
       if (err) { console.log("Error executing query:", err); return; }
 
       console.log(results[0]);
